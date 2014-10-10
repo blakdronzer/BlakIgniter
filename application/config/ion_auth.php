@@ -31,7 +31,7 @@ $config['collections']['login_attempts'] = 'login_attempts';
 | -------------------------------------------------------------------------
 | Database table names.
 */
-$config['tables']['users']           = 'retailer_acct';
+$config['tables']['users']           = 'users';
 $config['tables']['groups']          = 'groups';
 $config['tables']['users_groups']    = 'users_groups';
 $config['tables']['login_attempts']  = 'login_attempts';
@@ -81,12 +81,12 @@ $config['max_rounds']     = 9;
  | The controller should check this function and act
  | appropriately. If this variable set to 0, there is no maximum.
  */
-$config['site_title']           = "MyTMC"; 		// Site Title, example.com
-$config['admin_email']          = "admin@mytmcapp.com"; 	// Admin Email, admin@example.com
+$config['site_title']           = "Example.com"; 		// Site Title, example.com
+$config['admin_email']          = "admin@example.com"; 	// Admin Email, admin@example.com
 $config['default_group']        = 'members'; 			// Default group, use name
 $config['admin_group']          = 'admin'; 				// Default administrators group, use name
 $config['identity']             = 'email'; 				// A database column which is used to login with
-$config['min_password_length']  = 6; 					// Minimum Required Length of Password
+$config['min_password_length']  = 8; 					// Minimum Required Length of Password
 $config['max_password_length']  = 20; 					// Maximum Allowed Length of Password
 $config['email_activation']     = FALSE; 				// Email Activation for registration
 $config['manual_activation']    = FALSE; 				// Manual Activation for registration
@@ -97,7 +97,7 @@ $config['track_login_attempts'] = FALSE;				// Track the number of failed login 
 $config['maximum_login_attempts']     = 3; 				// The maximum number of failed login attempts.
 $config['lockout_time'] = 600;				   			// The number of seconds to lockout an account due to exceeded attempts
 $config['forgot_password_expiration'] = 0; 				// The number of seconds after which a forgot password request will expire. If set to 0, forgot password requests will not expire.
-$config['auth_salt'] = 'aiosudfhk2345kjh*&^%hj23b';
+
 
 /*
  | -------------------------------------------------------------------------
@@ -156,7 +156,7 @@ $config['email_forgot_password_complete'] = 'new_password.tpl.php';
  | default password, 'password', changes to
  | fbaa5e216d163a02ae630ab1a43372635dd374c0 with default salt.
  */
-//$config['salt_length'] = 10;
+$config['salt_length'] = 10;
 $config['store_salt']  = FALSE;
 
 /*

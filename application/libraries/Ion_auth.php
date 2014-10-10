@@ -405,8 +405,7 @@ class Ion_auth
 		$this->ion_auth_model->trigger_events('logged_in');
 
 		$identity = $this->config->item('identity', 'ion_auth');
-		//print_r($this->session->all_userdata());
-		//die();
+
 		return (bool) $this->session->userdata($identity);
 	}
 

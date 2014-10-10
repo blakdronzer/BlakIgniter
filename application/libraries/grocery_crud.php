@@ -4750,7 +4750,7 @@ class Grocery_CRUD extends grocery_CRUD_States
 		
 		//Code Added by Amit Shah - for including the thumbnail generator library
 		if(is_null($this->img)) {
-			include_once 'img.php';
+			require_once 'img.php';
 			$this->img = new img();
 			$this->img->set_basepath(FCPATH . 'assets/grocery_crud/thumbcache');
 			$this->img->set_baseurl(base_url() . 'assets/grocery_crud/thumbcache');

@@ -8,7 +8,6 @@
              <a href="#" class="tipR" title="Hide sidebar"><span class="icon12 minia-icon-layout"></span></a>
         </div>
 	
-		<?php $_user = getLoggedinUser(); ?>
 		
         <!--Sidebar background-->
         <div id="sidebarbg"></div>

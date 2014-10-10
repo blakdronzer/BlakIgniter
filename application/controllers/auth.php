@@ -31,7 +31,7 @@ class Auth extends CI_Controller {
 		elseif (!$this->ion_auth->is_admin())
 		{
 			//redirect them to the home page because they must be an administrator to view this
-			redirect('/admin', 'refresh');
+			redirect('/', 'refresh');
 		}
 		else
 		{
@@ -67,48 +67,17 @@ class Auth extends CI_Controller {
 
 			if ($this->ion_auth->login($this->input->post('identity'), $this->input->post('password'), $remember))
 			{ 
-				$user = $this->ion_auth->user()->row();
-				
 				//if the login is successful
 				//redirect them back to the home page
 				$this->session->set_flashdata('message', $this->ion_auth->messages());
-				redirect('/manage', 'refresh');
+				redirect('/', 'refresh');
 			}
 			else
-			{
-				$loggedin = false;
-				//Check if the user trying to login is an end user or what..
-				$user = $this->common_model->getByField('users', 'email', $this->input->post('identity'));
-				if(count($user) > 0) {
-					if($user['passwd'] == md5($this->input->post('password'))) {
-						$loggedin = true;
-					} else {
-						$loggedin = false;
-					}
-				} else {
-					$loggedin = false;
-				}
-
-				if($loggedin) {
-					$session_data = array(
-					    'identity'             => $user['email'],
-					    'email'                => $user['email'],
-					    'user_id'              => $user['id'], //everyone likes to overwrite id so we'll use user_id
-					    'old_last_login'       => null,
-					    'user_type'			   => 'EndUser'
-					);
-					$this->session->set_userdata($session_data);
-					//echo "I am here - now";
-					//print_r($this->session->all_userdata());
-					$this->session->set_flashdata('message', 'Logged in successfuly in the system.');
-					
-					redirect('dashboard/index', 'refresh');
-				} else {
-					//if the login was un-successful
-					//redirect them back to the login page
-					$this->session->set_flashdata('message', $this->ion_auth->errors());
-					redirect('auth/login', 'refresh'); //use redirects instead of loading views for compatibility with MY_Controller libraries
-				}
+			{ 
+				//if the login was un-successful
+				//redirect them back to the login page
+				$this->session->set_flashdata('message', $this->ion_auth->errors());
+				redirect('auth/login', 'refresh'); //use redirects instead of loading views for compatibility with MY_Controller libraries
 			}
 		}
 		else
@@ -145,10 +114,8 @@ class Auth extends CI_Controller {
 	}
 
 	//change password
-	function change_password($user_id=false)
+	function change_password()
 	{
-		$this->load->helper('user');
-		
 		$this->form_validation->set_rules('old', 'Old password', 'required');
 		$this->form_validation->set_rules('new', 'New Password', 'required|min_length[' . $this->config->item('min_password_length', 'ion_auth') . ']|max_length[' . $this->config->item('max_password_length', 'ion_auth') . ']|matches[new_confirm]');
 		$this->form_validation->set_rules('new_confirm', 'Confirm New Password', 'required');
@@ -190,27 +157,13 @@ class Auth extends CI_Controller {
 				'type'  => 'hidden',
 				'value' => $user->id,
 			);
-			
-			if(!is_bool($user_id)) {
-				$this->data['user_id'] = $user_id;
-			}
 
 			//render
 			$this->load->view('auth/change_password', $this->data);
 		}
 		else
 		{
-
-			$user_id = $this->input->post('user_id');
-			if(is_null($user_id) || $user_id == '') {
-				$identity = $this->session->userdata($this->config->item('identity', 'ion_auth'));
-			} else {
-				$identity_field = $this->config->item('identity', 'ion_auth');
-				$_user = $this->ion_auth->user($user_id)->row();
-				$identity = $_user->$identity_field;
-				//echo "Changing Password for - $identity<br>\n";
-				//die();
-			}
+			$identity = $this->session->userdata($this->config->item('identity', 'ion_auth'));
 
 			$change = $this->ion_auth->change_password($identity, $this->input->post('old'), $this->input->post('new'));
 
@@ -218,7 +171,7 @@ class Auth extends CI_Controller {
 			{ 
 				//if the password was successfully changed
 				$this->session->set_flashdata('message', $this->ion_auth->messages());
-				redirect('admin/users');
+				$this->logout();
 			}
 			else
 			{

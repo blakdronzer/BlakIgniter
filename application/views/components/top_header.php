@@ -3,7 +3,7 @@
         <div class="navbar">
             <div class="navbar-inner">
               <div class="container-fluid">
-                <a class="brand" href="<?php echo base_url()?>">PROJECT.<span class="slogan">backend</span></a>
+                <a class="brand" href="<?php echo base_url()?>"><?=$this->config->item('admin_backend_top')?>.<span class="slogan">backend</span></a>
                 <!--<img class="brand" src="<?php echo base_url()?>assets/images/logo.png" height="51px">-->
                 
                 <div class="nav-no-collapse">

@@ -255,8 +255,8 @@ class Ion_auth_model extends CI_Model
 		}
 		else
 		{
-			$salt = $this->config->item('auth_salt');
-			return  sha1($salt . $password);
+			$salt = $this->salt();
+			return  $salt . substr(sha1($salt . $password), 0, -$this->salt_length);
 		}
 	}
 
@@ -306,11 +306,10 @@ class Ion_auth_model extends CI_Model
 		}
 		else
 		{
-			//$salt = substr($hash_password_db->password, 0, $this->salt_length);
-			$salt = $this->config->item('auth_salt', 'ion_auth');
-			$db_password =  sha1($salt . $password);
+			$salt = substr($hash_password_db->password, 0, $this->salt_length);
+
+			$db_password =  $salt . substr(sha1($salt . $password), 0, -$this->salt_length);
 		}
-		
 
 		if($db_password == $hash_password_db->password)
 		{
@@ -341,7 +340,7 @@ class Ion_auth_model extends CI_Model
 	 **/
 	public function salt()
 	{
-		return $this->config->item('auth_salt');
+		return substr(md5(uniqid(rand(), true)), 0, $this->salt_length);
 	}
 
 	/**
@@ -852,7 +851,7 @@ class Ion_auth_model extends CI_Model
 
 		$this->trigger_events('extra_where');
 
-		$query = $this->db->select($this->identity_column . ', id, password, active, last_login')
+		$query = $this->db->select($this->identity_column . ', username, email, id, password, active, last_login')
 		                  ->where($this->identity_column, $this->db->escape_str($identity))
 		                  ->limit(1)
 		                  ->get($this->tables['users']);
@@ -886,6 +885,7 @@ class Ion_auth_model extends CI_Model
 
 				$session_data = array(
 				    'identity'             => $user->{$this->identity_column},
+				    'username'             => $user->username,
 				    'email'                => $user->email,
 				    'user_id'              => $user->id, //everyone likes to overwrite id so we'll use user_id
 				    'old_last_login'       => $user->last_login

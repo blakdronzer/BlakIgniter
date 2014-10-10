@@ -13,7 +13,7 @@
     <?php endforeach; ?>
     
     <div id="wrapper">
-    	<?php include APPPATH . 'views/components/sidebar.php';?>
+    	<?php //include APPPATH . 'views/components/sidebar.php';?>
 <!--Body content-->
         <div id="content" class="clearfix">
             <div class="contentwrapper"><!--Content wrapper-->

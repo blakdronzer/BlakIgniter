@@ -1380,7 +1380,7 @@ select {width: 150px;}
 /*Content for left sidebar only*/
 #content {
 	padding: 67px 25px 25px 25px;
-	margin-left: 212px;
+	margin-left: 2px;
 	padding-top: 67px;
 	min-height: 100%;
 	background: url(../images/patterns/5.png) repeat;
